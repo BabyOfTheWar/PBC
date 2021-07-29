@@ -1,0 +1,121 @@
+'use strict'
+
+let timerA, timerB, div, span, promocode;
+
+let btn = document.getElementById('element-319');
+let btn2 = document.getElementById('element-338');
+let btn3 = document.getElementById('element-344');
+let btn4 = document.getElementById('element-350');
+let btn5 = document.getElementById('element-388');
+let btn6 = document.getElementById('element-393');
+let btn7 = document.getElementById('element-396');
+let btn8 = document.getElementById('element-399');
+let btn9 = document.getElementById('element-351');
+let btn10 = document.getElementById('element-401');
+let btn11 = document.getElementById('element-415');
+
+
+btn.addEventListener('click', onButtonClick);
+btn2.addEventListener('click', onButtonClick);
+btn3.addEventListener('click', onButtonClick);
+btn4.addEventListener('click', onButtonClick);
+btn5.addEventListener('click', onButtonClick);
+btn6.addEventListener('click', onButtonClick);
+btn7.addEventListener('click', onButtonClick);
+btn8.addEventListener('click', onButtonClick);
+btn9.addEventListener('click', onButtonClick2);
+btn10.addEventListener('click', onButtonClick2);
+btn11.addEventListener('click', onButtonClick);
+
+function fallbackCopyTextToClipboard(text) {
+    var textArea = document.createElement("textarea");
+    textArea.value = text;
+    
+    // Avoid scrolling to bottom
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+  
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+  
+    try {
+      var successful = document.execCommand('copy');
+      var msg = successful ? 'successful' : 'unsuccessful';
+      console.log('Fallback: Copying text command was ' + msg);
+    } catch (err) {
+      console.error('Fallback: Oops, unable to copy', err);
+    }
+  
+    document.body.removeChild(textArea);
+}
+function copyTextToClipboard(text) {
+if (!navigator.clipboard) {
+    fallbackCopyTextToClipboard(text);
+    return;
+}
+navigator.clipboard.writeText(text).then(function() {
+    console.log('Async: Copying to clipboard was successful!');
+}, function(err) {
+    console.error('Async: Could not copy text: ', err);
+});
+}
+
+
+function onButtonClick ()
+{
+    var promocode = 'POKERRU'
+    copyTextToClipboard(promocode);
+    create_div();
+   
+}
+
+function onButtonClick2 ()
+{
+    var promocode = 'pgame' 
+    copyTextToClipboard(promocode);
+    create_div();
+    
+}
+
+function create_div(){
+    if (div){
+        clearTimeout(timerA);
+        clearTimeout(timerB);
+        div.parentNode.removeChild(div)
+        div = null;
+        create_div();
+    }else {
+        div = document.createElement('div');
+        span = document.createElement('span');
+        div.setAttribute('class', 'popup');
+        div.setAttribute('id', 'popup_div');
+        document.body.appendChild(div);
+        span.setAttribute('class', 'popuptext');
+        span.setAttribute('id', 'myPopup');
+        span.textContent = "Промокод скопирован!";
+        div.appendChild(span);
+        pop_up();
+    }
+}
+
+function destroy_div() {
+        div.parentNode.removeChild(div);
+        div = null;
+    clearTimeout(timerA);
+    clearTimeout(timerB);
+        return false;
+}
+
+function pop_up() {
+    let popup = document.getElementById("myPopup");
+    popup.classList.toggle("show");
+    timerA = setTimeout(function () {pop_up_close();}, 1500);
+}
+
+function pop_up_close() {
+    let popup = document.getElementById("myPopup");
+    popup.classList.toggle("hide");
+    timerB = setTimeout(function () {destroy_div();}, 2000);
+}
